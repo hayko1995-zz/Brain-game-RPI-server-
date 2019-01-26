@@ -1,0 +1,67 @@
+#include <ESP8266WiFi.h>
+
+
+const char* ssid = "Pi";
+const char* password = "12345679"; 
+
+
+int LED_PIN = 14;
+int BUTTON_PIN = 2;
+int last = 1;
+int state = 0;
+char geted_data = 'r';
+char data[3];
+
+#define SERVER_PORT 5000
+IPAddress server_ip = {192, 168, 137, 1};
+
+WiFiServer server(SERVER_PORT);
+WiFiClient client;
+void setup()
+{
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT);
+   digitalWrite(LED_PIN, HIGH);
+  Serial.begin(9600); 
+  WiFi.begin(ssid, password); 
+  while (WiFi.status() != WL_CONNECTED) 
+  {
+    digitalWrite(LED_PIN, HIGH);
+    delay(500);
+    Serial.print(".");
+     digitalWrite(LED_PIN, LOW);
+    
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+  Serial.println("Connect TCP Server");
+  while (!client.connect(server_ip, SERVER_PORT))
+  { digitalWrite(LED_PIN, HIGH);
+    Serial.print(".");
+    delay(200);
+     digitalWrite(LED_PIN, LOW);
+  }
+  Serial.println("Success");
+  //ESP.wdtDisable()
+}
+
+//======================================================================
+//                MAIN LOOP
+//======================================================================
+void loop()
+{
+    
+   
+    
+  //state = digitalRead(BUTTON_PIN);
+  //Serial.print(state);
+  if(digitalRead(BUTTON_PIN) == LOW){
+  {
+   // Serial.print("aaa");
+         digitalWrite(LED_PIN, HIGH);
+         client.print("b");
+         delay(3000); 
+  digitalWrite(LED_PIN, LOW);
+ }}}
